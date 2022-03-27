@@ -1,5 +1,5 @@
-import axios from "axios";
 
+import { axiosInstance } from "../config";
 import {
   ALL_DEVICE_CATEGORY_FAIL,
   ALL_DEVICE_CATEGORY_REQUEST,
@@ -29,7 +29,7 @@ export const getDeviceCategorys = () => async (dispatch) => {
 
     let link = `/api/v1/deviceCategorys`;
 
-    const { data } = await axios.get(link);
+    const { data } = await axiosInstance.get(link);
 
     dispatch({
       type: ALL_DEVICE_CATEGORY_SUCCESS,
@@ -48,7 +48,7 @@ export const getAdminDeviceCategorys = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DEVICE_CATEGORY_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/deviceCategorys");
+    const { data } = await axiosInstance.get("/api/v1/admin/deviceCategorys");
 
     dispatch({
       type: ADMIN_DEVICE_CATEGORY_SUCCESS,
@@ -72,7 +72,7 @@ export const createDeviceCategory =
         headers: { "Content-Type": "application/json" },
       };
 
-      const { data } = await axios.post(
+      const { data } = await axiosInstance.post(
         `/api/v1/deviceCategory/new`,
         { name, description },
         config
@@ -100,7 +100,7 @@ export const updateDeviceCategory =
         headers: { "Content-Type": "application/json" },
       };
 
-      const { data } = await axios.put(
+      const { data } = await axiosInstance.put(
         `/api/v1/deviceCategory/${id}`,
         deviceCategoryData,
         config
@@ -123,7 +123,7 @@ export const deleteDeviceCategory = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_DEVICE_CATEGORY_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/deviceCategory/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/deviceCategory/${id}`);
 
     dispatch({
       type: DELETE_DEVICE_CATEGORY_SUCCESS,
@@ -142,7 +142,7 @@ export const getDeviceCategoryDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: DEVICE_CATEGORY_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/deviceCategory/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/deviceCategory/${id}`);
 
     dispatch({
       type: DEVICE_CATEGORY_DETAILS_SUCCESS,

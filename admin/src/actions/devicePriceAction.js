@@ -1,5 +1,5 @@
-import axios from "axios";
 
+import { axiosInstance } from "../config";
 import {
   ALL_DEVICE_PRICE_FAIL,
   ALL_DEVICE_PRICE_REQUEST,
@@ -40,7 +40,7 @@ export const getAllDevicePrices =
       // if (category) {
       //   link = `/api/v1/devicePrices`;
       // }
-      const { data } = await axios.get(link);
+      const { data } = await axiosInstance.get(link);
       dispatch({
         type: ALL_DEVICE_PRICE_SUCCESS,
         payload: data,
@@ -58,7 +58,7 @@ export const getAdminDevicePrice = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DEVICE_PRICE_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/devicePrices");
+    const { data } = await axiosInstance.get("/api/v1/admin/devicePrices");
 
     dispatch({
       type: ADMIN_DEVICE_PRICE_SUCCESS,
@@ -80,7 +80,7 @@ export const createDevicePrice = (devicePriceData) => async (dispatch) => {
     const config = {
       headers: { "Content-Type": "application/json" },
     };
-    const { data } = await axios.post(
+    const { data } = await axiosInstance.post(
       `/api/v1/deviceprice/new`,
       devicePriceData,
       config
@@ -107,7 +107,7 @@ export const updateDevicePrice = (id, devicePriceData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(
+    const { data } = await axiosInstance.put(
       `/api/v1/admin/devicePrice/${id}`,
       devicePriceData,
       config
@@ -130,7 +130,7 @@ export const deleteDevicePrice = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_DEVICE_PRICE_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/admin/devicePrice/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/admin/devicePrice/${id}`);
 
     dispatch({
       type: DELETE_DEVICE_PRICE_SUCCESS,
@@ -149,7 +149,7 @@ export const getDevicePriceDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: DEVICE_PRICE_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/devicePrice/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/devicePrice/${id}`);
 
     dispatch({
       type: DEVICE_PRICE_DETAILS_SUCCESS,
@@ -168,7 +168,7 @@ export const getDevicePriceDetailsByZoneId = (id) => async (dispatch) => {
   try {
     dispatch({ type: DEVICE_PRICE_DETAILS_BY_ZONE_ID_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/devicePriceByZone/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/devicePriceByZone/${id}`);
     dispatch({
       type: DEVICE_PRICE_DETAILS_BY_ZONE_ID_SUCCESS,
       payload: data.devicePrice,
@@ -186,7 +186,7 @@ export const getDevicePriceDetailsByDeviceId = (id) => async (dispatch) => {
   try {
     dispatch({ type: DEVICE_PRICE_DETAILS_BY_DEVICE_ID_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/devicePriceByDevice/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/devicePriceByDevice/${id}`);
     dispatch({
       type: DEVICE_PRICE_DETAILS_BY_DEVICE_ID_SUCCESS,
       payload: data.devicePrice,

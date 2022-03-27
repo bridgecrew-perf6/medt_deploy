@@ -1,5 +1,5 @@
-import axios from "axios";
 
+import { axiosInstance } from "../config";
 import {
   ALL_DEVICE_FAIL,
   ALL_DEVICE_REQUEST,
@@ -43,7 +43,7 @@ export const getAllDevices =
       // if (category) {
       //   link = `/api/v1/devices`;
       // }
-      const { data } = await axios.get(link);
+      const { data } = await axiosInstance.get(link);
       dispatch({
         type: ALL_DEVICE_SUCCESS,
         payload: data,
@@ -61,7 +61,7 @@ export const getAdminDevices = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DEVICE_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/devices");
+    const { data } = await axiosInstance.get("/api/v1/admin/devices");
 
     dispatch({
       type: ADMIN_DEVICE_SUCCESS,
@@ -84,7 +84,7 @@ export const createDevice =
       const config = {
         headers: { "Content-Type": "application/json" },
       };
-      const { data } = await axios.post(
+      const { data } = await axiosInstance.post(
         `/api/v1/device/new`,
         deviceData,
         config
@@ -93,7 +93,7 @@ export const createDevice =
       devicePricesData.set("deviceId", data.device._id);
       for (var i = 0; i < zones.length; i++) {
         devicePricesData.set("zoneId", zones[i]._id);
-        const { devicePricedata } = await axios.post(
+        const { devicePricedata } = await axiosInstance.post(
           `/api/v1/devicePrice/new`,
           devicePricesData,
           config
@@ -121,7 +121,7 @@ export const updateDevice = (id, deviceData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(
+    const { data } = await axiosInstance.put(
       `/api/v1/admin/device/${id}`,
       deviceData,
       config
@@ -144,9 +144,9 @@ export const deleteDevice = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_DEVICE_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/admin/device/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/admin/device/${id}`);
 
-    const { devicePriceData } = await axios.delete(
+    const { devicePriceData } = await axiosInstance.delete(
       `/api/v1/admin/devicePriceByDevice/${id}`
     );
 
@@ -167,7 +167,7 @@ export const getDeviceDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: DEVICE_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/device/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/device/${id}`);
 
     dispatch({
       type: DEVICE_DETAILS_SUCCESS,
@@ -190,7 +190,7 @@ export const newReview = (reviewData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(`/api/v1/review`, reviewData, config);
+    const { data } = await axiosInstance.put(`/api/v1/review`, reviewData, config);
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
@@ -209,7 +209,7 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/reviews?id=${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/reviews?id=${id}`);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -228,7 +228,7 @@ export const deleteReviews = (reviewId, deviceId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_REVIEW_REQUEST });
 
-    const { data } = await axios.delete(
+    const { data } = await axiosInstance.delete(
       `/api/v1/reviews?id=${reviewId}&deviceId=${deviceId}`
     );
 

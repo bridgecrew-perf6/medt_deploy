@@ -1,5 +1,5 @@
-import axios from "axios";
 
+import { axiosInstance } from "../config";
 import {
   ALL_DRUG_FAIL,
   ALL_DRUG_REQUEST,
@@ -43,8 +43,8 @@ export const getAllDrugs =
       // if (category) {
       //   link = `/api/v1/drugs`;
       // }
-      const { data } = await axios.get(link);
-      
+      const { data } = await axiosInstance.get(link);
+
       dispatch({
         type: ALL_DRUG_SUCCESS,
         payload: data,
@@ -62,7 +62,7 @@ export const getAdminDrugs = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DRUG_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/drugs");
+    const { data } = await axiosInstance.get("/api/v1/admin/drugs");
 
     dispatch({
       type: ADMIN_DRUG_SUCCESS,
@@ -85,12 +85,12 @@ export const createDrug =
       const config = {
         headers: { "Content-Type": "application/json" },
       };
-      const { data } = await axios.post(`/api/v1/drug/new`, drugData, config);
+      const { data } = await axiosInstance.post(`/api/v1/drug/new`, drugData, config);
 
       drugPricesData.set("drugId", data.drug._id);
       for (var i = 0; i < zones.length; i++) {
         drugPricesData.set("zoneId", zones[i]._id);
-        const { drugPricedata } = await axios.post(
+        const { drugPricedata } = await axiosInstance.post(
           `/api/v1/drugPrice/new`,
           drugPricesData,
           config
@@ -118,7 +118,7 @@ export const updateDrug = (id, drugData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(
+    const { data } = await axiosInstance.put(
       `/api/v1/admin/drug/${id}`,
       drugData,
       config
@@ -141,9 +141,9 @@ export const deleteDrug = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_DRUG_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/admin/drug/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/admin/drug/${id}`);
 
-    const { drugPriceData } = await axios.delete(`/api/v1/admin/drugPriceByDrug/${id}`);
+    const { drugPriceData } = await axiosInstance.delete(`/api/v1/admin/drugPriceByDrug/${id}`);
 
     dispatch({
       type: DELETE_DRUG_SUCCESS,
@@ -163,7 +163,7 @@ export const getDrugDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: DRUG_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/drug/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/drug/${id}`);
 
     dispatch({
       type: DRUG_DETAILS_SUCCESS,
@@ -186,7 +186,7 @@ export const newReview = (reviewData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(`/api/v1/review`, reviewData, config);
+    const { data } = await axiosInstance.put(`/api/v1/review`, reviewData, config);
 
     dispatch({
       type: NEW_REVIEW_SUCCESS,
@@ -205,7 +205,7 @@ export const getAllReviews = (id) => async (dispatch) => {
   try {
     dispatch({ type: ALL_REVIEW_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/reviews?id=${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/reviews?id=${id}`);
 
     dispatch({
       type: ALL_REVIEW_SUCCESS,
@@ -224,7 +224,7 @@ export const deleteReviews = (reviewId, drugId) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_REVIEW_REQUEST });
 
-    const { data } = await axios.delete(
+    const { data } = await axiosInstance.delete(
       `/api/v1/reviews?id=${reviewId}&drugId=${drugId}`
     );
 

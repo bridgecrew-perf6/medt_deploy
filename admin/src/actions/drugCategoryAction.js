@@ -1,5 +1,4 @@
-import axios from "axios";
-
+import { axiosInstance } from "../config";
 import {
   ALL_DRUGCATEGORY_FAIL,
   ALL_DRUGCATEGORY_REQUEST,
@@ -29,7 +28,7 @@ export const getAllDrugCategorys = () => async (dispatch) => {
 
     let link = `/api/v1/drugCategorys`;
 
-    const { data } = await axios.get(link);
+    const { data } = await axiosInstance.get(link);
 
     dispatch({
       type: ALL_DRUGCATEGORY_SUCCESS,
@@ -48,7 +47,7 @@ export const getAdminDrugCategorys = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DRUGCATEGORY_REQUEST });
 
-    const { data } = await axios.get("/api/v1/admin/drugCategorys");
+    const { data } = await axiosInstance.get("/api/v1/admin/drugCategorys");
 
     dispatch({
       type: ADMIN_DRUGCATEGORY_SUCCESS,
@@ -71,7 +70,7 @@ export const createDrugCategory = (name, description) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.post(
+    const { data } = await axiosInstance.post(
       `/api/v1/admin/drugCategory/new`,
       { name, description },
       config
@@ -98,7 +97,7 @@ export const updateDrugCategory = (id, drugCategoryData) => async (dispatch) => 
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(`/api/v1/admin/drugCategory/${id}`, drugCategoryData, config);
+    const { data } = await axiosInstance.put(`/api/v1/admin/drugCategory/${id}`, drugCategoryData, config);
 
     dispatch({
       type: UPDATE_DRUGCATEGORY_SUCCESS,
@@ -117,7 +116,7 @@ export const deleteDrugCategory = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_DRUGCATEGORY_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/admin/drugCategory/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/admin/drugCategory/${id}`);
 
     dispatch({
       type: DELETE_DRUGCATEGORY_SUCCESS,
@@ -136,7 +135,7 @@ export const getDrugCategoryDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: DRUGCATEGORY_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/admin/drugCategory/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/admin/drugCategory/${id}`);
 
     dispatch({
       type: DRUGCATEGORY_DETAILS_SUCCESS,

@@ -1,5 +1,5 @@
-import axios from "axios";
 
+import { axiosInstance } from "../config";
 import {
   ALL_CHEMICAL_FAIL,
   ALL_CHEMICAL_REQUEST,
@@ -32,7 +32,7 @@ export const getChemicals = () => async (dispatch) => {
 
     let link = `/api/v1/chemicals`;
 
-    const { data } = await axios.get(link);
+    const { data } = await axiosInstance.get(link);
 
     dispatch({
       type: ALL_CHEMICAL_SUCCESS,
@@ -51,7 +51,7 @@ export const getChemicalsByDrugCategory = (drugCategory) => async (dispatch) => 
   try {
     dispatch({ type: CHEMICALS_BY_DRUG_CATEGORY_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/chemicalsByDrugCategory/${drugCategory}`);
+    const { data } = await axiosInstance.get(`/api/v1/chemicalsByDrugCategory/${drugCategory}`);
 
     dispatch({
       type: CHEMICALS_BY_DRUG_CATEGORY_SUCCESS,
@@ -70,7 +70,7 @@ export const getAdminChemicals = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_CHEMICAL_REQUEST });
 
-    const { data } = await axios.get("/api/v1/chemicals");
+    const { data } = await axiosInstance.get("/api/v1/chemicals");
 
     dispatch({
       type: ADMIN_CHEMICAL_SUCCESS,
@@ -93,7 +93,7 @@ export const createChemical = (chemicalData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.post(
+    const { data } = await axiosInstance.post(
       `/api/v1/chemical/new`,
       chemicalData,
       config
@@ -120,7 +120,7 @@ export const updateChemical = (id, chemicalData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(`/api/v1/chemical/${id}`, chemicalData, config);
+    const { data } = await axiosInstance.put(`/api/v1/chemical/${id}`, chemicalData, config);
 
     dispatch({
       type: UPDATE_CHEMICAL_SUCCESS,
@@ -139,7 +139,7 @@ export const deleteChemical = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_CHEMICAL_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/chemical/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/chemical/${id}`);
 
     dispatch({
       type: DELETE_CHEMICAL_SUCCESS,
@@ -158,7 +158,7 @@ export const getChemicalDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: CHEMICAL_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/chemical/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/chemical/${id}`);
 
     dispatch({
       type: CHEMICAL_DETAILS_SUCCESS,

@@ -1,5 +1,5 @@
-import axios from "axios";
 
+import { axiosInstance } from "../config";
 import {
   ALL_DISEASE_FAIL,
   ALL_DISEASE_REQUEST,
@@ -29,7 +29,7 @@ export const getDiseases = () => async (dispatch) => {
 
     let link = `/api/v1/diseases`;
 
-    const { data } = await axios.get(link);
+    const { data } = await axiosInstance.get(link);
 
     dispatch({
       type: ALL_DISEASE_SUCCESS,
@@ -48,7 +48,7 @@ export const getAdminDiseases = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_DISEASE_REQUEST });
 
-    const { data } = await axios.get("/api/v1/diseases");
+    const { data } = await axiosInstance.get("/api/v1/diseases");
 
     dispatch({
       type: ADMIN_DISEASE_SUCCESS,
@@ -71,7 +71,7 @@ export const createDisease = (name, description) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.post(
+    const { data } = await axiosInstance.post(
       `/api/v1/disease/new`,
       { name, description },
       config
@@ -98,7 +98,7 @@ export const updateDisease = (id, diseaseData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(
+    const { data } = await axiosInstance.put(
       `/api/v1/disease/${id}`,
       diseaseData,
       config
@@ -121,7 +121,7 @@ export const deleteDisease = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_DISEASE_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/disease/${id}`);
+    const { data } = await axiosInstance.delete(`/api/v1/disease/${id}`);
 
     dispatch({
       type: DELETE_DISEASE_SUCCESS,
@@ -140,7 +140,7 @@ export const getDiseaseDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: DISEASE_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/disease/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/disease/${id}`);
 
     dispatch({
       type: DISEASE_DETAILS_SUCCESS,

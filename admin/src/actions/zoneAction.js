@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../config";
 
 import {
   ALL_ZONE_FAIL,
@@ -29,7 +29,7 @@ export const getZones = () => async (dispatch) => {
 
     let link = `/api/v1/zones`;
 
-    const { data } = await axios.get(link);
+    const { data } = await axiosInstance.get(link);
 
     dispatch({
       type: ALL_ZONE_SUCCESS,
@@ -48,7 +48,7 @@ export const getAdminZones = () => async (dispatch) => {
   try {
     dispatch({ type: ADMIN_ZONE_REQUEST });
 
-    const { data } = await axios.get("/api/v1/zones");
+    const { data } = await axiosInstance.get("/api/v1/zones");
 
     dispatch({
       type: ADMIN_ZONE_SUCCESS,
@@ -72,7 +72,7 @@ export const createZone =
         headers: { "Content-Type": "application/json" },
       };
 
-      const { data } = await axios.post(
+      const { data } = await axiosInstance.post(
         `/api/v1/admin/zone/new`,
         { name },
         config
@@ -81,7 +81,7 @@ export const createZone =
       const zoneId = data.zone._id;
 
       // Drugs
-      const { data: drugPricesData } = await axios.get(
+      const { data: drugPricesData } = await axiosInstance.get(
         `/api/v1/drugPricesByZone/${firstZoneId}`
       );
       var drugPricedata = drugPricesData.drugPrices[0];
@@ -93,7 +93,7 @@ export const createZone =
         var drugId = drugs[i]._id;
         drugPricedata = { ...drugPricedata, drugId };
 
-        const { drugPrice } = await axios.post(
+        const { drugPrice } = await axiosInstance.post(
           `/api/v1/drugPrice/new`,
           drugPricedata,
           config
@@ -101,7 +101,7 @@ export const createZone =
       }
 
       // Products
-      const { data: productPricesData } = await axios.get(
+      const { data: productPricesData } = await axiosInstance.get(
         `/api/v1/productPricesByZone/${firstZoneId}`
       );
       var productPricedata = productPricesData.productPrices[0];
@@ -113,7 +113,7 @@ export const createZone =
         var productId = products[i]._id;
         productPricedata = { ...productPricedata, productId };
 
-        const { productPrice } = await axios.post(
+        const { productPrice } = await axiosInstance.post(
           `/api/v1/productPrice/new`,
           productPricedata,
           config
@@ -121,7 +121,7 @@ export const createZone =
       }
 
       // Devices
-      const { data: devicePricesData } = await axios.get(
+      const { data: devicePricesData } = await axiosInstance.get(
         `/api/v1/devicePricesByZone/${firstZoneId}`
       );
       var devicePricedata = devicePricesData.devicePrices[0];
@@ -133,7 +133,7 @@ export const createZone =
         var deviceId = devices[i]._id;
         devicePricedata = { ...devicePricedata, deviceId };
 
-        const { devicePrice } = await axios.post(
+        const { devicePrice } = await axiosInstance.post(
           `/api/v1/devicePrice/new`,
           devicePricedata,
           config
@@ -161,7 +161,11 @@ export const updateZone = (id, zoneData) => async (dispatch) => {
       headers: { "Content-Type": "application/json" },
     };
 
-    const { data } = await axios.put(`/api/v1/zone/${id}`, zoneData, config);
+    const { data } = await axiosInstance.put(
+      `/api/v1/zone/${id}`,
+      zoneData,
+      config
+    );
 
     dispatch({
       type: UPDATE_ZONE_SUCCESS,
@@ -180,14 +184,14 @@ export const deleteZone = (id) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_ZONE_REQUEST });
 
-    const { data } = await axios.delete(`/api/v1/zone/${id}`);
-    const { data: deleteDevicePrice } = await axios.delete(
+    const { data } = await axiosInstance.delete(`/api/v1/zone/${id}`);
+    const { data: deleteDevicePrice } = await axiosInstance.delete(
       `/api/v1/admin/devicePriceByZone/${id}`
     );
-    const { data: deleteDrugPrice } = await axios.delete(
+    const { data: deleteDrugPrice } = await axiosInstance.delete(
       `/api/v1/admin/drugPriceByZone/${id}`
     );
-    const { data: deleteProductPrice } = await axios.delete(
+    const { data: deleteProductPrice } = await axiosInstance.delete(
       `/api/v1/admin/productPriceByZone/${id}`
     );
 
@@ -208,7 +212,7 @@ export const getZoneDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: ZONE_DETAILS_REQUEST });
 
-    const { data } = await axios.get(`/api/v1/zone/${id}`);
+    const { data } = await axiosInstance.get(`/api/v1/zone/${id}`);
 
     dispatch({
       type: ZONE_DETAILS_SUCCESS,
