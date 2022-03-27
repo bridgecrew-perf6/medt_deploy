@@ -1,0 +1,8 @@
+.previewImage{
+    margin-top: 7px;
+}
+.previewImage img{
+    border: 1px solid rgb(173, 159, 159);
+    margin-right: 5px;
+    border-radius: 4px;
+}
